@@ -51,7 +51,7 @@ echo.
 curl -fLs "!DOWNLOAD_URL!" -o "%TEMP_DIR%\!FILE_NAME!"
 if errorlevel 1 (
     echo.
-    echo ERROR: Download failed.
+    echo ERROR: WT Download failed.
     pause
 )
 echo  Done
@@ -61,8 +61,7 @@ echo  Done
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Add-AppxPackage -Path '%TEMP_DIR%\!FILE_NAME!'"
 if errorlevel 1 (
     echo.
-    echo ERROR: Installation failed.
-    echo The installer may require additional dependencies.
+    echo ERROR: WT Installation failed.
     pause
 )
 echo  Done
@@ -92,9 +91,9 @@ if errorlevel 1 (
 echo  Done
 
 @REM GIT
-<nul set /p "=[7/8] Downloading Git . . ."
-set "GIT_URL=https://github.com/git-for-windows/git/releases/latest/download/Git-64-bit.exe"
-set "GIT_INSTALLER=%TEMP_DIR%\Git-64-bit.exe"
+<nul set /p "=[7/8] Downloading Git 2.56.0 . . ."
+set "GIT_URL=https://github.com/git-for-windows/git/releases/download/v2.56.0-rc1.windows.1/Git-2.56.0-rc1-64-bit.exe"
+set "GIT_INSTALLER=%TEMP_DIR%\Git.exe"
 
 @REM Download GIT
 curl.exe -fLs "%GIT_URL%" -o "%GIT_INSTALLER%"
@@ -106,7 +105,7 @@ if errorlevel 1 (
 echo  Done
 
 @REM Install GIT
-<nul set /p "=[8/8] Installing Git . . ."
+<nul set /p "=[8/8] Installing Git 2.56.0 . . ."
 "%GIT_INSTALLER%" /VERYSILENT /NORESTART /NOCANCEL /SP-
 if errorlevel 1 (
     echo.
@@ -117,6 +116,9 @@ echo  Done
 
 @REM Remove temp dir
 rmdir /s /q "%TEMP_DIR%"
+if exist "%TEMP%\wt_install.bat" (
+    del "%TEMP%\wt_install.bat"
+)
 
 echo.
 pause
